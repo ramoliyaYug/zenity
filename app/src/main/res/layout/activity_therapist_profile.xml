@@ -1,144 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".activities.TherapistProfileActivity">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/profile_content"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/circle_background"
-                    android:contentDescription="Therapist profile image"
-                    android:padding="16dp"
-                    android:src="@drawable/ic_profile" />
-
-                <TextView
-                    android:id="@+id/therapist_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    tools:text="Dr. Jane Smith" />
-
-                <TextView
-                    android:id="@+id/therapist_specialization"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:gravity="center"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"
-                    android:textStyle="italic"
-                    tools:text="Anxiety, Depression" />
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/profile_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginEnd="4dp"
-                        android:contentDescription="Verified badge"
-                        android:src="@drawable/ic_verified" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/circle_background"
+                        android:contentDescription="Therapist profile image"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_profile" />
 
                     <TextView
+                        android:id="@+id/therapist_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold_xml"
+                        android:gravity="center"
+                        android:textColor="@color/colorText"
+                        android:textSize="24sp"
+                        tools:text="Dr. Jane Smith" />
+
+                    <TextView
+                        android:id="@+id/therapist_specialization"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/montserrat_medium_xml"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="italic"
+                        tools:text="Anxiety, Depression" />
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Verified Professional"
-                        android:textSize="14sp" />
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginEnd="4dp"
+                            android:contentDescription="Verified badge"
+                            android:src="@drawable/ic_verified" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat"
+                            android:text="@string/verified_professional"
+                            android:textColor="@color/colorTextSecondary"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@color/colorDivider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/montserrat_bold_xml"
+                        android:text="@string/about"
+                        android:textColor="@color/colorText"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/therapist_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:fontFamily="@font/montserrat"
+                        android:lineSpacingExtra="4dp"
+                        android:textColor="@color/colorText"
+                        tools:text="I specialize in cognitive behavioral therapy with over 10 years of experience helping patients overcome anxiety and depression." />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/montserrat_bold_xml"
+                        android:text="@string/availability"
+                        android:textColor="@color/colorText"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:fontFamily="@font/montserrat"
+                        android:text="Available weekdays 9 AM-5 PM"
+                        android:textColor="@color/colorTextSecondary" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/book_session_button"
+                            style="@style/Button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="@string/book_session" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/chat_button"
+                            style="@style/Button.Outlined"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:text="@string/message" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@color/colorDivider" />
-
-                <TextView
-                    android:layout_width="match_parent"
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="About"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/therapist_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    tools:text="I specialize in cognitive behavioral therapy with over 10 years of experience helping patients overcome anxiety and depression." />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Availability"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:text="Available weekdays 9 AM-5 PM"
-                    android:textColor="@color/colorTextSecondary" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/book_session_button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="Book Session" />
-
-                    <Button
-                        android:id="@+id/chat_button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:text="Message" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-        </FrameLayout>
-    </LinearLayout>
-</ScrollView>
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/colorPrimary" />
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

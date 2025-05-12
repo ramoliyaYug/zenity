@@ -1,5 +1,67 @@
 <resources>
     <string name="app_name">Zenity</string>
+    <string name="app_tagline">Peace of mind, one session at a time</string>
+    <string name="app_logo">Zenity Logo</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Auth Strings -->
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_hint">Password (min 6 characters)</string>
+    <string name="full_name">Full Name</string>
+    <string name="user_type">I am a:</string>
+    <string name="patient">Patient</string>
+    <string name="therapist">Therapist</string>
+    <string name="switch_to_signup">Don\'t have an account? Sign up</string>
+    <string name="switch_to_login">Already have an account? Login</string>
+
+    <!-- Profile Strings -->
+    <string name="profile">Profile</string>
+    <string name="name">Name</string>
+    <string name="email_label">Email</string>
+    <string name="user_type_label">User Type</string>
+    <string name="age">Age</string>
+    <string name="specialization">Specialization</string>
+    <string name="about_me">About Me</string>
+    <string name="save_profile">Save Profile</string>
+
+    <!-- Session Strings -->
+    <string name="book_session">Book Session</string>
+    <string name="select_date">Select Date:</string>
+    <string name="select_time_slot">Select Time Slot:</string>
+    <string name="session_type">Session Type:</string>
+    <string name="my_sessions">My Sessions</string>
+    <string name="no_sessions">No sessions booked yet</string>
+
+    <!-- Chat Strings -->
+    <string name="messages">Messages</string>
+    <string name="type_message">Type a message…</string>
+    <string name="send">Send</string>
+    <string name="no_conversations">No conversations yet</string>
+
+    <!-- Forum Strings -->
+    <string name="community_forum">Community Forum</string>
+    <string name="new_discussion">New Discussion</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="thread_title_hint">Enter discussion title</string>
+    <string name="thread_content_hint">Share your thoughts, questions, or experiences…</string>
+    <string name="post_discussion">Post Discussion</string>
+    <string name="replies">Replies</string>
+    <string name="no_threads">No threads yet. Be the first to start a discussion!</string>
+    <string name="no_replies">No replies yet. Be the first to reply!</string>
+    <string name="write_reply">Write a reply…</string>
+    <string name="reply">Reply</string>
+
+    <!-- Therapist Strings -->
+    <string name="find_therapist">Find a Therapist</string>
+    <string name="therapist_profile">Therapist Profile</string>
+    <string name="about">About</string>
+    <string name="availability">Availability</string>
+    <string name="verified_professional">Verified Professional</string>
+    <string name="message">Message</string>
+    <string name="no_therapists">No therapists available at the moment</string>
 </resources>

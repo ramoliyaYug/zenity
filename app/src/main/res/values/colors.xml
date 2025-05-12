@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4CAF50</color>
-    <color name="colorPrimaryDark">#388E3C</color>
-    <color name="colorAccent">#8BC34A</color>
-    <color name="colorBackground">#FFFFFF</color>
-    <color name="colorText">#212121</color>
-    <color name="colorTextSecondary">#757575</color>
-    <color name="colorDivider">#BDBDBD</color>
-    <color name="colorSentMessage">#E3F2FD</color>
+    <!-- Primary purple theme colors -->
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimaryLight">#BB86FC</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <!-- Background colors -->
+    <color name="colorBackground">#F6F2FF</color>
+    <color name="colorBackgroundLight">#FFFFFF</color>
+    <color name="colorBackgroundAccent">#E8DDFF</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorCard">#FFFFFF</color>
+
+    <!-- Text colors -->
+    <color name="colorText">#1F1F1F</color>
+    <color name="colorTextSecondary">#6E6E6E</color>
+    <color name="colorTextLight">#9E9E9E</color>
+    <color name="colorTextOnPrimary">#FFFFFF</color>
+
+    <!-- UI element colors -->
+    <color name="colorDivider">#E0E0E0</color>
+    <color name="colorSentMessage">#E8E1FF</color>
     <color name="colorReceivedMessage">#F1F1F1</color>
+    <color name="colorSuccess">#4CAF50</color>
+    <color name="colorError">#F44336</color>
+    <color name="colorWarning">#FFC107</color>
+    <color name="colorInfo">#2196F3</color>
 </resources>

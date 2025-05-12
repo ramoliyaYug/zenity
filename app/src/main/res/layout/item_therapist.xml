@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    android:layout_margin="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/therapist_image"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
@@ -38,8 +36,9 @@
                     android:id="@+id/therapist_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold_xml"
+                    android:textColor="@color/colorText"
                     android:textSize="18sp"
-                    android:textStyle="bold"
                     tools:text="Dr. Jane Smith" />
 
                 <TextView
@@ -47,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:fontFamily="@font/montserrat_medium_xml"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="italic"
                     tools:text="Anxiety, Depression" />
@@ -68,7 +68,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Verified"
+                        android:fontFamily="@font/montserrat"
+                        android:text="@string/verified_professional"
+                        android:textColor="@color/colorTextSecondary"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -80,15 +82,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:ellipsize="end"
+            android:fontFamily="@font/montserrat"
             android:maxLines="3"
+            android:textColor="@color/colorText"
             tools:text="I specialize in cognitive behavioral therapy with over 10 years of experience helping patients overcome anxiety and depression." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat"
             android:text="Available weekdays 9 AM-5 PM"
             android:textColor="@color/colorTextSecondary"
             android:textSize="12sp" />
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

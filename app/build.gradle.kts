@@ -53,6 +53,12 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
 
+    // Circle ImageView
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    // Lottie for animations
+    implementation ("com.airbnb.android:lottie:6.0.0")
+
 // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

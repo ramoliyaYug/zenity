@@ -1,66 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:background="@color/colorBackground"
+    android:fillViewport="true"
     tools:context=".activities.BookingActivity">
 
-    <TextView
-        android:id="@+id/therapist_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        tools:text="Therapist: Dr. Jane Smith" />
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Select Date:"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/therapist_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/montserrat_bold_xml"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
+            tools:text="Therapist: Dr. Jane Smith" />
 
-    <Button
-        android:id="@+id/date_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        tools:text="Monday, May 10, 2023" />
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Select Time Slot:"
-        android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-    <Spinner
-        android:id="@+id/time_slot_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/montserrat_bold_xml"
+                    android:text="@string/select_date"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Session Type:"
-        android:textSize="16sp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/date_button"
+                    style="@style/Button.Outlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:icon="@drawable/ic_calendar"
+                    app:iconGravity="textStart"
+                    tools:text="Monday, May 10, 2023" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-    <Spinner
-        android:id="@+id/session_type_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp" />
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
 
-    <Button
-        android:id="@+id/book_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Book Session" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-</LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/montserrat_bold_xml"
+                    android:text="@string/select_time_slot"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/time_slot_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/rounded_edit_text"
+                    android:padding="12dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/montserrat_bold_xml"
+                    android:text="@string/session_type"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/session_type_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_edit_text"
+                    android:padding="12dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/book_button"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/book_session" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

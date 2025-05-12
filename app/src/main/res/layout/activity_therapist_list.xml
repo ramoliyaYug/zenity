@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".activities.TherapistListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/therapist_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:padding="8dp" />
 
     <TextView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:fontFamily="@font/montserrat"
         android:gravity="center"
-        android:text="No therapists available at the moment"
+        android:text="@string/no_therapists"
+        android:textColor="@color/colorTextSecondary"
         android:textSize="16sp"
         android:visibility="gone" />
 
@@ -27,6 +30,7 @@
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorPrimary" />
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
