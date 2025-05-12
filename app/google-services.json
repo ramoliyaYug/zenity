@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "321610847595",
+    "firebase_url": "https://zenity-39dce-default-rtdb.firebaseio.com",
+    "project_id": "zenity-39dce",
+    "storage_bucket": "zenity-39dce.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321610847595:android:cc71f7742352f74312682e",
+        "android_client_info": {
+          "package_name": "com.example.zenity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgqzWhlIZFqc0pi2SuLbe3KfIIm47Z3_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".activities.NewThreadActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="Title"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/thread_title_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter discussion title"
+        android:inputType="text"
+        android:maxLines="2" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="Content"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/thread_content_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="Share your thoughts, questions, or experiences..."
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/post_thread_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post Discussion" />
+
+</LinearLayout>
