@@ -13,13 +13,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.example.zenity.R
 import com.example.zenity.adapters.ThreadAdapter
 import com.example.zenity.utils.FirebaseManager
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
 class ForumActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyView: TextView
-    private lateinit var newThreadButton: FloatingActionButton
+    private lateinit var newThreadButton: ExtendedFloatingActionButton
     private lateinit var adapter: ThreadAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

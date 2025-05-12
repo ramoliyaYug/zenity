@@ -1,48 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="1dp">
+    android:layout_margin="8dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/colorDivider"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/reply_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="Jane Smith" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_profile"
+                app:civ_border_color="@color/colorPrimaryLight"
+                app:civ_border_width="1dp"
+                app:civ_circle_background_color="@color/colorBackgroundLight" />
 
-            <TextView
-                android:id="@+id/reply_date"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="12sp"
-                tools:text="May 10, 2023 at 4:30 PM" />
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/reply_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="@color/colorText"
+                    android:textSize="14sp"
+                    tools:text="Jane Smith" />
+
+                <TextView
+                    android:id="@+id/reply_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="12sp"
+                    tools:text="May 10, 2023 at 4:30 PM" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
             android:id="@+id/reply_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/montserrat"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
             tools:text="Have you tried meditation? It has really helped me with my anxiety." />
 
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -49,11 +49,10 @@ class ProfileActivity : AppCompatActivity() {
         // Show/hide fields based on user type
         val userType = prefManager.getUserType()
         if (userType == "patient") {
-            findViewById<TextView>(R.id.specialization_label).visibility = android.view.View.GONE
+            findViewById<TextView>(R.id.specialization_edit_text).visibility = android.view.View.GONE
             specializationEditText.visibility = android.view.View.GONE
-        } else {
-            findViewById<TextView>(R.id.age_label).visibility = android.view.View.GONE
-            ageEditText.visibility = android.view.View.GONE
+        }else{
+            findViewById<TextView>(R.id.age_edit_text).visibility = android.view.View.GONE
         }
 
         saveButton.setOnClickListener {

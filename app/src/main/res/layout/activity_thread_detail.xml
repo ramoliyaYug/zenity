@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/colorBackground"
     tools:context=".activities.ThreadDetailActivity">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="72dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,12 +20,12 @@
             android:orientation="vertical">
 
             <!-- Thread details -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                android:layout_margin="16dp"
+                app:cardElevation="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -35,107 +37,182 @@
                         android:id="@+id/thread_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/colorText"
                         android:textSize="20sp"
-                        android:textStyle="bold"
                         tools:text="Coping with anxiety" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_profile"
+                            app:civ_border_color="@color/colorPrimaryLight"
+                            app:civ_border_width="1dp"
+                            app:civ_circle_background_color="@color/colorBackgroundLight" />
 
                         <TextView
                             android:id="@+id/thread_author"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            tools:text="Posted by John Doe" />
+                            android:fontFamily="@font/montserrat_medium"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp"
+                            tools:text="John Doe" />
 
                         <TextView
                             android:id="@+id/thread_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:fontFamily="@font/montserrat"
+                            android:textColor="@color/colorTextLight"
                             android:textSize="12sp"
                             tools:text="May 10, 2023 at 3:45 PM" />
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/colorDivider" />
+
                     <TextView
                         android:id="@+id/thread_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/montserrat"
+                        android:lineSpacingExtra="6dp"
+                        android:textColor="@color/colorText"
+                        android:textSize="15sp"
                         tools:text="I've been experiencing anxiety lately and wanted to share some coping strategies that have worked for me..." />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Replies section -->
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="Replies"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="@string/replies"
+                    android:textColor="@color/colorText"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorDivider" />
+
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:minHeight="200dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/replies_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:clipToPadding="false" />
+                    android:clipToPadding="false"
+                    android:padding="8dp" />
 
-                <TextView
-                    android:id="@+id/empty_replies_view"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="No replies yet. Be the first to reply!"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="16dp"
+                        android:alpha="0.5"
+                        android:contentDescription="No replies"
+                        android:src="@drawable/ic_chat_empty"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/empty_replies_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center"
+                        android:text="@string/no_replies"
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+                </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/colorPrimary" />
 
             </FrameLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Reply input section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorBackgroundLight"
+        android:elevation="8dp"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="12dp">
 
         <EditText
             android:id="@+id/reply_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Write a reply..."
+            android:background="@drawable/rounded_edit_text"
+            android:hint="@string/write_reply"
             android:inputType="textMultiLine"
-            android:maxLines="4" />
+            android:maxLines="4"
+            android:padding="12dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/send_reply_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="8dp"
-            android:text="Reply" />
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:cornerRadius="24dp"
+            app:icon="@drawable/ic_send"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp" />
 
     </LinearLayout>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
