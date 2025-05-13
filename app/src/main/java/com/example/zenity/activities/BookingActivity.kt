@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
@@ -20,8 +21,8 @@ class BookingActivity : AppCompatActivity() {
 
     private lateinit var therapistNameTextView: TextView
     private lateinit var dateButton: Button
-    private lateinit var timeSlotSpinner: Spinner
-    private lateinit var sessionTypeSpinner: Spinner
+    private lateinit var timeSlotSpinner: AutoCompleteTextView
+    private lateinit var sessionTypeSpinner: AutoCompleteTextView
     private lateinit var bookButton: Button
     private lateinit var prefManager: PreferenceManager
 
@@ -67,15 +68,15 @@ class BookingActivity : AppCompatActivity() {
     private fun setupSpinners() {
         // Time slot spinner
         val timeSlots = arrayOf("Morning", "Afternoon", "Evening")
-        val timeSlotAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, timeSlots)
-        timeSlotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        timeSlotSpinner.adapter = timeSlotAdapter
+        val timeSlotAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, timeSlots)
+        timeSlotSpinner.setAdapter(timeSlotAdapter)
+        timeSlotSpinner.setText(timeSlots[0], false)
 
         // Session type spinner
         val sessionTypes = arrayOf("Initial Consultation", "Follow-up Session")
-        val sessionTypeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, sessionTypes)
-        sessionTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        sessionTypeSpinner.adapter = sessionTypeAdapter
+        val sessionTypeAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, sessionTypes)
+        sessionTypeSpinner.setAdapter(sessionTypeAdapter)
+        sessionTypeSpinner.setText(sessionTypes[0], false)
     }
 
     private fun setupDatePicker() {
@@ -107,8 +108,8 @@ class BookingActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val timeSlot = timeSlotSpinner.selectedItem.toString().lowercase()
-            val sessionType = if (sessionTypeSpinner.selectedItemPosition == 0) "initial" else "follow-up"
+            val timeSlot = timeSlotSpinner.text.toString().lowercase()
+            val sessionType = if (sessionTypeSpinner.text.toString() == "Initial Consultation") "initial" else "follow-up"
 
             val session = Session(
                 patientId = patientId,

@@ -57,7 +57,10 @@ dependencies {
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
     // Lottie for animations
-    implementation ("com.airbnb.android:lottie:6.0.0")
+    implementation ("com.airbnb.android:lottie:+")
+
+    // Splash Screen API
+    implementation ("androidx.core:core-splashscreen:1.0.1")
 
 // Testing
     testImplementation("junit:junit:4.13.2")

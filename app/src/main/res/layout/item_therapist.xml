@@ -5,12 +5,19 @@
     style="@style/Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/colorCard"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,10 +26,10 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/therapist_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/circle_background"
+                android:background="@drawable/circle_accent"
                 android:contentDescription="Therapist profile image"
                 android:padding="8dp"
                 android:src="@drawable/ic_profile" />
@@ -63,7 +70,8 @@
                         android:layout_height="16dp"
                         android:layout_marginEnd="4dp"
                         android:contentDescription="Verified badge"
-                        android:src="@drawable/ic_verified" />
+                        android:src="@drawable/ic_verified"
+                        app:tint="@color/colorAccent" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -80,20 +88,48 @@
             android:id="@+id/therapist_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:ellipsize="end"
             android:fontFamily="@font/montserrat"
             android:maxLines="3"
             android:textColor="@color/colorText"
             tools:text="I specialize in cognitive behavioral therapy with over 10 years of experience helping patients overcome anxiety and depression." />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Available weekdays 9 AM-5 PM"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="12sp" />
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center_vertical"
+                android:text="Available weekdays 9 AM-5 PM"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="12sp"
+                app:drawableStartCompat="@drawable/ic_time"
+                app:drawableTint="@color/colorAccent" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="View Profile"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_arrow_right"
+                app:iconGravity="end"
+                app:iconSize="16dp"
+                app:iconTint="@color/colorPrimary" />
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

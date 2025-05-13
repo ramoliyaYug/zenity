@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardElevation="1dp">
+    app:cardBackgroundColor="@color/colorCard"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,19 +22,19 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/colorText"
-            android:textSize="16sp"
+            android:textSize="18sp"
             tools:text="Coping with anxiety" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_profile"
                 app:civ_border_color="@color/colorPrimaryLight"
@@ -43,9 +45,9 @@
                 android:id="@+id/thread_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat"
+                android:fontFamily="@font/montserrat_medium"
                 android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:text="John Doe" />
 
             <TextView
@@ -64,7 +66,7 @@
             android:id="@+id/thread_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:ellipsize="end"
             android:fontFamily="@font/montserrat"
             android:lineSpacingExtra="4dp"
@@ -76,21 +78,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:gravity="end"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="4dp"
-                android:fontFamily="@font/montserrat"
-                android:gravity="center_vertical"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="View discussion"
                 android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                app:drawableEndCompat="@drawable/ic_arrow_right"
-                app:drawableTint="@color/colorPrimary" />
+                android:textSize="14sp"
+                app:icon="@drawable/ic_arrow_right"
+                app:iconGravity="end"
+                app:iconTint="@color/colorPrimary" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

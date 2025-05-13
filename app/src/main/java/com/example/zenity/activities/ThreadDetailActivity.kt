@@ -3,30 +3,33 @@ package com.example.zenity.activities
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.zenity.R
 import com.example.zenity.adapters.ReplyAdapter
 import com.example.zenity.models.ForumThread
 import com.example.zenity.models.ThreadReply
 import com.example.zenity.utils.FirebaseManager
 import com.example.zenity.utils.PreferenceManager
+import com.google.android.material.textfield.TextInputEditText
 
 class ThreadDetailActivity : AppCompatActivity() {
 
+    private lateinit var toolbar: Toolbar
     private lateinit var threadTitleTextView: TextView
     private lateinit var threadAuthorTextView: TextView
     private lateinit var threadDateTextView: TextView
     private lateinit var threadContentTextView: TextView
     private lateinit var repliesRecyclerView: RecyclerView
-    private lateinit var replyEditText: EditText
+    private lateinit var replyEditText: TextInputEditText
     private lateinit var sendReplyButton: Button
-    private lateinit var progressBar: ProgressBar
+    private lateinit var loadingAnimation: LottieAnimationView
+    private lateinit var contentContainer: View
     private lateinit var emptyRepliesView: TextView
     private lateinit var adapter: ReplyAdapter
     private lateinit var prefManager: PreferenceManager
@@ -48,8 +51,10 @@ class ThreadDetailActivity : AppCompatActivity() {
             return
         }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.title = threadTitle ?: "Thread Detail"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initViews()
         setupRecyclerView()
@@ -66,7 +71,8 @@ class ThreadDetailActivity : AppCompatActivity() {
         repliesRecyclerView = findViewById(R.id.replies_recycler_view)
         replyEditText = findViewById(R.id.reply_edit_text)
         sendReplyButton = findViewById(R.id.send_reply_button)
-        progressBar = findViewById(R.id.progress_bar)
+        loadingAnimation = findViewById(R.id.progress_bar)
+        contentContainer = findViewById(R.id.content_container)
         emptyRepliesView = findViewById(R.id.empty_replies_view)
     }
 
@@ -77,11 +83,15 @@ class ThreadDetailActivity : AppCompatActivity() {
     }
 
     private fun loadThreadDetails() {
+        loadingAnimation.visibility = View.VISIBLE
+        contentContainer.visibility = View.GONE
+
         FirebaseManager.database.child("threads").child(threadId!!)
             .get().addOnSuccessListener { snapshot ->
                 val thread = snapshot.getValue(ForumThread::class.java)
                 if (thread != null) {
                     displayThreadDetails(thread)
+                    contentContainer.visibility = View.VISIBLE
                 } else {
                     Toast.makeText(this, "Thread not found", Toast.LENGTH_SHORT).show()
                     finish()
@@ -103,10 +113,8 @@ class ThreadDetailActivity : AppCompatActivity() {
     }
 
     private fun loadReplies() {
-        progressBar.visibility = View.VISIBLE
-
         FirebaseManager.getThreadReplies(threadId!!) { replies ->
-            progressBar.visibility = View.GONE
+            loadingAnimation.visibility = View.GONE
 
             if (replies.isEmpty()) {
                 emptyRepliesView.visibility = View.VISIBLE
@@ -149,7 +157,7 @@ class ThreadDetailActivity : AppCompatActivity() {
                 sendReplyButton.isEnabled = true
 
                 if (success) {
-                    replyEditText.text.clear()
+                    replyEditText.text?.clear()
                     loadReplies() // Refresh replies
                 } else {
                     Toast.makeText(this, message ?: "Failed to send reply", Toast.LENGTH_SHORT).show()
@@ -161,5 +169,10 @@ class ThreadDetailActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 }

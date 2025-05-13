@@ -1,20 +1,25 @@
 package com.example.zenity.activities
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import com.airbnb.lottie.LottieAnimationView
 import com.example.zenity.R
 import com.example.zenity.models.ForumThread
 import com.example.zenity.utils.FirebaseManager
 import com.example.zenity.utils.PreferenceManager
+import com.google.android.material.textfield.TextInputEditText
 
 class NewThreadActivity : AppCompatActivity() {
 
-    private lateinit var titleEditText: EditText
-    private lateinit var contentEditText: EditText
+    private lateinit var toolbar: Toolbar
+    private lateinit var titleEditText: TextInputEditText
+    private lateinit var contentEditText: TextInputEditText
     private lateinit var postButton: Button
+    private lateinit var loadingAnimation: LottieAnimationView
     private lateinit var prefManager: PreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +28,15 @@ class NewThreadActivity : AppCompatActivity() {
 
         prefManager = PreferenceManager(this)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.title = "New Discussion"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         titleEditText = findViewById(R.id.thread_title_edit_text)
         contentEditText = findViewById(R.id.thread_content_edit_text)
         postButton = findViewById(R.id.post_thread_button)
+        loadingAnimation = findViewById(R.id.loading_animation)
 
         setupPostButton()
     }
@@ -65,13 +73,16 @@ class NewThreadActivity : AppCompatActivity() {
             )
 
             postButton.isEnabled = false
+            loadingAnimation.visibility = View.VISIBLE
 
             FirebaseManager.createForumThread(thread) { success, message ->
+                loadingAnimation.visibility = View.GONE
                 postButton.isEnabled = true
 
                 if (success) {
                     Toast.makeText(this, "Thread posted successfully", Toast.LENGTH_SHORT).show()
                     finish()
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                 } else {
                     Toast.makeText(this, message ?: "Failed to post thread", Toast.LENGTH_SHORT).show()
                 }
@@ -82,5 +93,10 @@ class NewThreadActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 }

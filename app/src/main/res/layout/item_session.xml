@@ -6,7 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardElevation="1dp">
+    app:cardBackgroundColor="@color/colorCard"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +21,7 @@
         <View
             android:layout_width="6dp"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary" />
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +41,7 @@
                     android:layout_marginEnd="12dp"
                     android:contentDescription="Calendar icon"
                     android:src="@drawable/ic_calendar"
-                    app:tint="@color/colorPrimary" />
+                    app:tint="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/session_date"
@@ -61,7 +66,7 @@
                     android:layout_marginEnd="12dp"
                     android:contentDescription="Time icon"
                     android:src="@drawable/ic_time"
-                    app:tint="@color/colorPrimary" />
+                    app:tint="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/session_time_slot"
@@ -86,7 +91,7 @@
                     android:layout_marginEnd="12dp"
                     android:contentDescription="Session type icon"
                     android:src="@drawable/ic_session_type"
-                    app:tint="@color/colorPrimary" />
+                    app:tint="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/session_type"
@@ -112,8 +117,8 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_profile"
                     app:civ_border_color="@color/colorPrimaryLight"

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Outer circle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M100,100m-90,0a90,90 0,1 1,180 0a90,90 0,1 1,-180 0" />
+
+    <!-- Inner circle with gradient -->
+    <path
+        android:fillColor="#6200EE"
+        android:pathData="M100,100m-80,0a80,80 0,1 1,160 0a80,80 0,1 1,-160 0" />
+
+    <!-- Lotus flower petals -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M100,40C90,60 80,70 60,80C80,90 90,100 100,120C110,100 120,90 140,80C120,70 110,60 100,40Z" />
+
+    <!-- Person silhouette -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M100,100m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0" />
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M80,130C80,130 90,120 100,120C110,120 120,130 120,130C120,130 110,140 100,140C90,140 80,130 80,130Z" />
+
+    <!-- Decorative circles -->
+    <path
+        android:fillColor="#BB86FC"
+        android:pathData="M60,60m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0" />
+
+    <path
+        android:fillColor="#BB86FC"
+        android:pathData="M140,60m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0" />
+
+    <path
+        android:fillColor="#BB86FC"
+        android:pathData="M60,140m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0" />
+
+    <path
+        android:fillColor="#BB86FC"
+        android:pathData="M140,140m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0" />
+</vector>

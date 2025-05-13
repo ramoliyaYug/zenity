@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.NestedScrollView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.zenity.R
 import com.example.zenity.models.User
 import com.example.zenity.utils.FirebaseManager
@@ -15,12 +17,14 @@ import com.example.zenity.utils.PreferenceManager
 
 class TherapistProfileActivity : AppCompatActivity() {
 
+    private lateinit var toolbar: Toolbar
     private lateinit var nameTextView: TextView
     private lateinit var specializationTextView: TextView
     private lateinit var descriptionTextView: TextView
     private lateinit var bookSessionButton: Button
     private lateinit var chatButton: Button
-    private lateinit var progressBar: ProgressBar
+    private lateinit var loadingAnimation: LottieAnimationView
+    private lateinit var profileContent: NestedScrollView
     private lateinit var prefManager: PreferenceManager
 
     private var therapistId: String? = null
@@ -39,8 +43,10 @@ class TherapistProfileActivity : AppCompatActivity() {
             return
         }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.title = "Therapist Profile"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initViews()
         loadTherapistProfile()
@@ -52,7 +58,8 @@ class TherapistProfileActivity : AppCompatActivity() {
         descriptionTextView = findViewById(R.id.therapist_description)
         bookSessionButton = findViewById(R.id.book_session_button)
         chatButton = findViewById(R.id.chat_button)
-        progressBar = findViewById(R.id.progress_bar)
+        loadingAnimation = findViewById(R.id.progress_bar)
+        profileContent = findViewById(R.id.profile_content)
 
         // Only show book session button for patients
         if (prefManager.getUserType() != "patient") {
@@ -66,6 +73,7 @@ class TherapistProfileActivity : AppCompatActivity() {
                     putExtra("THERAPIST_NAME", therapist?.name)
                 }
                 startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }
 
@@ -76,19 +84,22 @@ class TherapistProfileActivity : AppCompatActivity() {
                     putExtra("OTHER_USER_NAME", therapist?.name)
                 }
                 startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }
     }
 
     private fun loadTherapistProfile() {
-        progressBar.visibility = View.VISIBLE
+        loadingAnimation.visibility = View.VISIBLE
+        profileContent.visibility = View.GONE
 
         FirebaseManager.getUserProfile(therapistId!!) { user ->
-            progressBar.visibility = View.GONE
+            loadingAnimation.visibility = View.GONE
 
             if (user != null && user.userType == "therapist") {
                 therapist = user
                 displayTherapistInfo(user)
+                profileContent.visibility = View.VISIBLE
             } else {
                 Toast.makeText(this, "Failed to load therapist profile", Toast.LENGTH_SHORT).show()
                 finish()
@@ -98,8 +109,8 @@ class TherapistProfileActivity : AppCompatActivity() {
 
     private fun displayTherapistInfo(therapist: User) {
         nameTextView.text = therapist.name
-        specializationTextView.text = therapist.specialization
-        descriptionTextView.text = therapist.description
+        specializationTextView.text = therapist.specialization ?: "General Therapy"
+        descriptionTextView.text = therapist.description ?: "No description available"
 
         supportActionBar?.title = therapist.name
     }
@@ -107,5 +118,10 @@ class TherapistProfileActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,7 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="2dp"
         android:fontFamily="@font/montserrat_medium_xml"
-        android:textColor="@color/colorTextSecondary"
+        android:textColor="@color/colorTextOnDark"
         android:textSize="12sp"
         android:visibility="gone"
         tools:text="Jane Smith"
@@ -26,9 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:background="@drawable/received_message_background"
+        android:maxWidth="280dp"
         android:orientation="vertical"
-        android:padding="12dp"
-        android:maxWidth="280dp">
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/message_text"

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@drawable/gradient_background"
     tools:context=".activities.ForumActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
+        android:background="@drawable/gradient_background"
         app:elevation="0dp">
 
         <LinearLayout
@@ -26,72 +26,80 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="@string/community_forum"
-                android:textColor="@color/colorText"
-                android:textSize="24sp" />
+                android:textColor="@color/colorTextOnDark"
+                android:textSize="28sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
                 android:text="Share and connect with others"
-                android:textColor="@color/colorTextSecondary"
-                android:textSize="14sp" />
+                android:textColor="@color/colorTextOnDark"
+                android:textSize="16sp" />
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/threads_recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:padding="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <LinearLayout
-        android:id="@+id/empty_state_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="32dp"
-        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginBottom="24dp"
-            android:alpha="0.7"
-            android:contentDescription="Empty forum"
-            android:src="@drawable/ic_forum_empty" />
+        <!-- Loading Animation -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading_animation"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/meditation_loading" />
 
-        <TextView
-            android:id="@+id/empty_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/threads_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="center"
-            android:text="@string/no_threads"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="16sp" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="16dp"
+            android:visibility="gone" />
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/empty_state_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/montserrat"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Start a discussion to connect with others"
-            android:textColor="@color/colorTextLight"
-            android:textSize="14sp" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:visibility="gone">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/colorPrimary" />
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginBottom="24dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/empty_state" />
+
+            <TextView
+                android:id="@+id/empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="center"
+                android:text="@string/no_threads"
+                android:textColor="@color/colorTextOnDark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="Start a discussion to connect with others"
+                android:textColor="@color/colorTextOnDark"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/new_thread_button"
@@ -103,7 +111,7 @@
         android:fontFamily="@font/montserrat_medium"
         android:text="New Discussion"
         android:textColor="@color/colorTextOnPrimary"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorAccent"
         app:icon="@drawable/ic_add"
         app:iconTint="@color/colorTextOnPrimary" />
 

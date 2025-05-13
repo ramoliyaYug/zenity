@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Zenity"
         tools:targetApi="31">
         <activity
+            android:name=".activities.BaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -56,8 +59,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>

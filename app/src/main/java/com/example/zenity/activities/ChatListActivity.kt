@@ -3,25 +3,22 @@ package com.example.zenity.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.zenity.R
 import com.example.zenity.adapters.ChatListAdapter
-import com.example.zenity.models.User
 import com.example.zenity.utils.FirebaseManager
 import com.example.zenity.utils.PreferenceManager
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 
 class ChatListActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
+    private lateinit var loadingAnimation: LottieAnimationView
     private lateinit var emptyView: TextView
+    private lateinit var emptyStateContainer: View
     private lateinit var adapter: ChatListAdapter
     private lateinit var prefManager: PreferenceManager
 
@@ -31,12 +28,12 @@ class ChatListActivity : AppCompatActivity() {
 
         prefManager = PreferenceManager(this)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Messages"
+        supportActionBar?.hide()
 
         recyclerView = findViewById(R.id.chat_list_recycler_view)
-        progressBar = findViewById(R.id.progress_bar)
+        loadingAnimation = findViewById(R.id.progress_bar)
         emptyView = findViewById(R.id.empty_view)
+        emptyStateContainer = findViewById(R.id.empty_state_container)
 
         setupRecyclerView()
         loadChatList()
@@ -49,6 +46,7 @@ class ChatListActivity : AppCompatActivity() {
                 putExtra("OTHER_USER_NAME", user.name)
             }
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -56,12 +54,14 @@ class ChatListActivity : AppCompatActivity() {
     }
 
     private fun loadChatList() {
-        progressBar.visibility = View.VISIBLE
+        loadingAnimation.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+        emptyStateContainer.visibility = View.GONE
 
         val currentUserId = prefManager.getUserId()
         if (currentUserId == null) {
-            progressBar.visibility = View.GONE
-            emptyView.visibility = View.VISIBLE
+            loadingAnimation.visibility = View.GONE
+            emptyStateContainer.visibility = View.VISIBLE
             emptyView.text = "User not logged in"
             return
         }
@@ -79,13 +79,13 @@ class ChatListActivity : AppCompatActivity() {
 
     private fun loadTherapists() {
         FirebaseManager.getAllTherapists { therapists ->
-            progressBar.visibility = View.GONE
+            loadingAnimation.visibility = View.GONE
 
             if (therapists.isEmpty()) {
-                emptyView.visibility = View.VISIBLE
+                emptyStateContainer.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
             } else {
-                emptyView.visibility = View.GONE
+                emptyStateContainer.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
                 adapter.setUsers(therapists)
             }
@@ -94,21 +94,31 @@ class ChatListActivity : AppCompatActivity() {
 
     private fun loadPatients() {
         FirebaseManager.getAllPatients { patients ->
-            progressBar.visibility = View.GONE
+            loadingAnimation.visibility = View.GONE
 
             if (patients.isEmpty()) {
-                emptyView.visibility = View.VISIBLE
+                emptyStateContainer.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
             } else {
-                emptyView.visibility = View.GONE
+                emptyStateContainer.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
                 adapter.setUsers(patients)
             }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadChatList() // Refresh chat list when returning to this activity
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 }
