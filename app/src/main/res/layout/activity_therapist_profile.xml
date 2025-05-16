@@ -97,11 +97,13 @@
                             tools:text="Anxiety, Depression" />
 
                         <LinearLayout
+                            android:id="@+id/verification_badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="visible">
 
                             <ImageView
                                 android:layout_width="16dp"
@@ -112,11 +114,12 @@
                                 app:tint="@color/colorAccent" />
 
                             <TextView
+                                android:id="@+id/verification_status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat"
                                 android:text="@string/verified_professional"
-                                android:textColor="@color/colorTextSecondary"
+                                android:textColor="@color/colorSuccess"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>

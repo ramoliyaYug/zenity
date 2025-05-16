@@ -85,6 +85,280 @@ object FirebaseManager {
             })
     }
 
+    // Enhanced verifyTherapist method with additional logging and verification
+    fun verifyTherapist(therapistId: String, isVerified: Boolean, notes: String, onComplete: (Boolean, String?) -> Unit) {
+        Log.d(TAG, "Verifying therapist $therapistId, isVerified=$isVerified")
+
+        // First, check if the user exists and is a therapist
+        database.child("users").child(therapistId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                if (user != null && user.userType == "therapist") {
+                    Log.d(TAG, "Found therapist: ${user.name}, current verification: ${user.isVerified}")
+
+                    // Create updated user with verification status
+                    val updatedUser = user.copy(isVerified = isVerified, verificationNotes = notes)
+
+                    // Update the user in Firebase with explicit isVerified field
+                    val updates = HashMap<String, Any>()
+                    updates["isVerified"] = isVerified
+                    updates["verificationNotes"] = notes
+
+                    database.child("users").child(therapistId).updateChildren(updates)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(TAG, "Therapist verification updated successfully to: $isVerified")
+
+                                // Double-check the update was successful by reading back the data
+                                database.child("users").child(therapistId).addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(verifySnapshot: DataSnapshot) {
+                                        val verifiedUser = verifySnapshot.getValue(User::class.java)
+                                        Log.d(TAG, "Verification status after update: ${verifiedUser?.isVerified}")
+                                        onComplete(true, "Therapist verification updated successfully")
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        Log.e(TAG, "Verification check cancelled", error.toException())
+                                        onComplete(true, "Therapist verification updated but unable to confirm")
+                                    }
+                                })
+                            } else {
+                                Log.e(TAG, "Failed to update therapist verification", task.exception)
+                                onComplete(false, task.exception?.message)
+                            }
+                        }
+                } else {
+                    Log.e(TAG, "User not found or not a therapist")
+                    onComplete(false, "User not found or not a therapist")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "verifyTherapist:onCancelled", error.toException())
+                onComplete(false, error.message)
+            }
+        })
+    }
+
+    // Enhanced getVerifiedTherapists method with improved filtering
+    fun getVerifiedTherapists(onComplete: (List<User>) -> Unit) {
+        Log.d(TAG, "Getting verified therapists with improved method")
+
+        // Use a compound query to get only verified therapists
+        // First get all therapists
+        database.child("users").orderByChild("userType").equalTo("therapist")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val therapists = mutableListOf<User>()
+                    Log.d(TAG, "Found ${snapshot.childrenCount} therapists total")
+
+                    // Manually filter for verified therapists with explicit logging
+                    for (therapistSnapshot in snapshot.children) {
+                        // Get the raw data to check if isVerified exists and is true
+                        val rawData = therapistSnapshot.value as? Map<*, *>
+                        val isVerifiedRaw = rawData?.get("isVerified")
+
+                        // Get the parsed User object
+                        val therapist = therapistSnapshot.getValue(User::class.java)
+
+                        Log.d(TAG, "Therapist: ${therapist?.name}, userId: ${therapist?.userId}")
+                        Log.d(TAG, "Raw isVerified value: $isVerifiedRaw, Parsed isVerified: ${therapist?.isVerified}")
+
+                        // Only add therapists that are explicitly verified
+                        if (therapist != null && (isVerifiedRaw == true || therapist.isVerified)) {
+                            Log.d(TAG, "Adding verified therapist: ${therapist.name}")
+
+                            // Ensure the isVerified flag is set correctly in the object we're returning
+                            val verifiedTherapist = if (!therapist.isVerified) {
+                                therapist.copy(isVerified = true)
+                            } else {
+                                therapist
+                            }
+
+                            therapists.add(verifiedTherapist)
+                        }
+                    }
+
+                    Log.d(TAG, "Returning ${therapists.size} verified therapists")
+                    onComplete(therapists)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "getVerifiedTherapists:onCancelled", error.toException())
+                    onComplete(emptyList())
+                }
+            })
+    }
+
+    // Get all unverified therapists
+    fun getUnverifiedTherapists(onComplete: (List<User>) -> Unit) {
+        database.child("users").orderByChild("userType").equalTo("therapist")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val therapists = mutableListOf<User>()
+                    for (therapistSnapshot in snapshot.children) {
+                        val therapist = therapistSnapshot.getValue(User::class.java)
+                        if (therapist != null && !therapist.isVerified) {
+                            therapists.add(therapist)
+                        }
+                    }
+                    onComplete(therapists)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "getUnverifiedTherapists:onCancelled", error.toException())
+                    onComplete(emptyList())
+                }
+            })
+    }
+
+    fun updateVerificationRequest(requestId: String, status: String, adminNotes: String, onComplete: (Boolean, String?) -> Unit) {
+        Log.d(TAG, "Updating verification request: $requestId, status: $status")
+        database.child("verificationRequests").child(requestId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val request = snapshot.getValue(VerificationRequest::class.java)
+                    if (request != null) {
+                        Log.d(TAG, "Found request for therapist: ${request.therapistName}, therapistId: ${request.therapistId}")
+                        val updatedRequest = request.copy(status = status, adminNotes = adminNotes)
+
+                        // Update the request first
+                        database.child("verificationRequests").child(requestId).setValue(updatedRequest)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Log.d(TAG, "Request updated successfully, now updating therapist verification")
+
+                                    if (status == "approved") {
+                                        // If approved, update the therapist's verification status directly using updateChildren
+                                        val updates = HashMap<String, Any>()
+                                        updates["isVerified"] = true
+                                        updates["verificationNotes"] = adminNotes
+
+                                        database.child("users").child(request.therapistId).updateChildren(updates)
+                                            .addOnCompleteListener { verifyTask ->
+                                                if (verifyTask.isSuccessful) {
+                                                    Log.d(TAG, "Therapist verification updated successfully to TRUE")
+
+                                                    // Double-check the update was successful
+                                                    database.child("users").child(request.therapistId)
+                                                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                                                            override fun onDataChange(verifySnapshot: DataSnapshot) {
+                                                                val verifiedUser = verifySnapshot.getValue(User::class.java)
+                                                                Log.d(TAG, "Verification status after approval: ${verifiedUser?.isVerified}")
+                                                                onComplete(true, "Therapist verified successfully")
+                                                            }
+
+                                                            override fun onCancelled(error: DatabaseError) {
+                                                                Log.e(TAG, "Verification check cancelled", error.toException())
+                                                                onComplete(true, "Therapist verification updated but unable to confirm")
+                                                            }
+                                                        })
+                                                } else {
+                                                    Log.e(TAG, "Failed to update therapist verification", verifyTask.exception)
+                                                    onComplete(false, verifyTask.exception?.message)
+                                                }
+                                            }
+                                    } else if (status == "rejected") {
+                                        // If rejected, ensure therapist is not verified using updateChildren
+                                        val updates = HashMap<String, Any>()
+                                        updates["isVerified"] = false
+                                        updates["verificationNotes"] = adminNotes
+
+                                        database.child("users").child(request.therapistId).updateChildren(updates)
+                                            .addOnCompleteListener { verifyTask ->
+                                                if (verifyTask.isSuccessful) {
+                                                    Log.d(TAG, "Therapist verification updated successfully to FALSE")
+                                                    onComplete(true, "Therapist verification rejected")
+                                                } else {
+                                                    Log.e(TAG, "Failed to update therapist verification", verifyTask.exception)
+                                                    onComplete(false, verifyTask.exception?.message)
+                                                }
+                                            }
+                                    } else {
+                                        // For other statuses, just return success
+                                        onComplete(true, "Request updated successfully")
+                                    }
+                                } else {
+                                    Log.e(TAG, "Failed to update request", task.exception)
+                                    onComplete(false, task.exception?.message)
+                                }
+                            }
+                    } else {
+                        Log.e(TAG, "Verification request not found")
+                        onComplete(false, "Verification request not found")
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "updateVerificationRequest:onCancelled", error.toException())
+                    onComplete(false, error.message)
+                }
+            })
+    }
+
+    // Verification request methods
+    fun submitVerificationRequest(therapistId: String, credentials: String, onComplete: (Boolean, String?) -> Unit) {
+        getUserProfile(therapistId) { user ->
+            if (user != null && user.userType == "therapist") {
+                val requestId = database.child("verificationRequests").push().key ?:
+                return@getUserProfile onComplete(false, "Failed to generate request ID")
+
+                val request = VerificationRequest(
+                    requestId = requestId,
+                    therapistId = therapistId,
+                    therapistName = user.name,
+                    timestamp = System.currentTimeMillis(),
+                    credentials = credentials
+                )
+
+                database.child("verificationRequests").child(requestId).setValue(request)
+                    .addOnCompleteListener { task ->
+                        onComplete(task.isSuccessful, if (task.isSuccessful) requestId else task.exception?.message)
+                    }
+            } else {
+                onComplete(false, "User not found or not a therapist")
+            }
+        }
+    }
+
+    fun getAllVerificationRequests(onComplete: (List<VerificationRequest>) -> Unit) {
+        database.child("verificationRequests")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val requests = mutableListOf<VerificationRequest>()
+                    for (requestSnapshot in snapshot.children) {
+                        requestSnapshot.getValue(VerificationRequest::class.java)?.let { requests.add(it) }
+                    }
+                    requests.sortByDescending { it.timestamp }
+                    onComplete(requests)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "getAllVerificationRequests:onCancelled", error.toException())
+                    onComplete(emptyList())
+                }
+            })
+    }
+
+    fun getPendingVerificationRequests(onComplete: (List<VerificationRequest>) -> Unit) {
+        database.child("verificationRequests").orderByChild("status").equalTo("pending")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val requests = mutableListOf<VerificationRequest>()
+                    for (requestSnapshot in snapshot.children) {
+                        requestSnapshot.getValue(VerificationRequest::class.java)?.let { requests.add(it) }
+                    }
+                    requests.sortByDescending { it.timestamp }
+                    onComplete(requests)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "getPendingVerificationRequests:onCancelled", error.toException())
+                    onComplete(emptyList())
+                }
+            })
+    }
+
     // Session booking methods
     fun bookSession(session: Session, onComplete: (Boolean, String?) -> Unit) {
         val sessionId = database.child("sessions").push().key ?: return onComplete(false, "Failed to generate session ID")
@@ -242,6 +516,52 @@ object FirebaseManager {
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "getThreadReplies:onCancelled", error.toException())
                     onComplete(emptyList())
+                }
+            })
+    }
+
+    // Add this method at the end of the FirebaseManager object to create an admin account
+    fun createAdminAccount(email: String, password: String, name: String, onComplete: (Boolean, String?) -> Unit) {
+        // First check if any admin accounts already exist
+        database.child("users").orderByChild("userType").equalTo("admin")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists() && snapshot.childrenCount > 0) {
+                        // Admin account already exists
+                        onComplete(false, "Admin account already exists. Contact existing admin for access.")
+                        return
+                    }
+
+                    // No admin exists, create one
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val userId = auth.currentUser?.uid
+                                if (userId != null) {
+                                    val adminUser = User(
+                                        userId = userId,
+                                        email = email,
+                                        name = name,
+                                        userType = "admin"
+                                    )
+
+                                    database.child("users").child(userId).setValue(adminUser)
+                                        .addOnCompleteListener { profileTask ->
+                                            onComplete(profileTask.isSuccessful,
+                                                if (profileTask.isSuccessful) "Admin account created successfully"
+                                                else profileTask.exception?.message)
+                                        }
+                                } else {
+                                    onComplete(false, "Failed to get user ID")
+                                }
+                            } else {
+                                onComplete(false, task.exception?.message)
+                            }
+                        }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    onComplete(false, error.message)
                 }
             })
     }

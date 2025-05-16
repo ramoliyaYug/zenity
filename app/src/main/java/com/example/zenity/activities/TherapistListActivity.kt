@@ -49,17 +49,25 @@ class TherapistListActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
+    // Update the loadTherapists method to ensure it's refreshing properly
+    // Replace the existing loadTherapists method with this improved version:
+
     private fun loadTherapists() {
         loadingAnimation.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
         emptyStateContainer.visibility = View.GONE
 
-        FirebaseManager.getAllTherapists { therapists ->
+        // Add logging to help diagnose the issue
+        FirebaseManager.getVerifiedTherapists { therapists ->
             loadingAnimation.visibility = View.GONE
+
+            // Log the number of therapists received
+            android.util.Log.d("TherapistListActivity", "Received ${therapists.size} verified therapists")
 
             if (therapists.isEmpty()) {
                 emptyStateContainer.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
+                emptyView.text = "No verified therapists available at the moment."
             } else {
                 emptyStateContainer.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
@@ -68,9 +76,56 @@ class TherapistListActivity : AppCompatActivity() {
         }
     }
 
+    // Add a method to force refresh the therapist list
+    // Add this new method after the loadTherapists method:
+
+    // Enhanced force refresh method with better error handling and logging
+    private fun forceRefreshTherapists() {
+        // Clear any adapter data first
+        adapter.setTherapists(emptyList())
+
+        // Show loading state
+        loadingAnimation.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+        emptyStateContainer.visibility = View.GONE
+
+        android.util.Log.d("TherapistListActivity", "Starting force refresh of therapist list")
+
+        // Add a small delay to ensure Firebase has the latest data
+        recyclerView.postDelayed({
+            FirebaseManager.getVerifiedTherapists { therapists ->
+                loadingAnimation.visibility = View.GONE
+
+                android.util.Log.d("TherapistListActivity", "Force refresh: Received ${therapists.size} verified therapists")
+
+                // Log each therapist for debugging
+                therapists.forEach { therapist ->
+                    android.util.Log.d("TherapistListActivity",
+                        "Therapist: ${therapist.name}, ID: ${therapist.userId}, Verified: ${therapist.isVerified}")
+                }
+
+                if (therapists.isEmpty()) {
+                    emptyStateContainer.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                    emptyView.text = "No verified therapists available at the moment."
+                    android.util.Log.w("TherapistListActivity", "No verified therapists found")
+                } else {
+                    emptyStateContainer.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                    adapter.setTherapists(therapists)
+                    android.util.Log.d("TherapistListActivity", "Successfully displayed ${therapists.size} therapists")
+                }
+            }
+        }, 1500) // 1.5 second delay to ensure Firebase has latest data
+    }
+
+    // Update the onResume method to use the force refresh method
+    // Replace the existing onResume method with this improved version:
+
     override fun onResume() {
         super.onResume()
-        loadTherapists() // Refresh therapists when returning to this activity
+        // Use force refresh instead of regular load to ensure we get the latest data
+        forceRefreshTherapists()
     }
 
     override fun onSupportNavigateUp(): Boolean {

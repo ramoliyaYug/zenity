@@ -26,6 +26,8 @@ class TherapistProfileActivity : AppCompatActivity() {
     private lateinit var loadingAnimation: LottieAnimationView
     private lateinit var profileContent: NestedScrollView
     private lateinit var prefManager: PreferenceManager
+    private lateinit var verificationBadge: View
+    private lateinit var verificationStatus: TextView
 
     private var therapistId: String? = null
     private var therapist: User? = null
@@ -47,6 +49,10 @@ class TherapistProfileActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Therapist Profile"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        // Find verification views - using the correct IDs from the layout
+        verificationBadge = findViewById(R.id.verification_badge)
+        verificationStatus = findViewById(R.id.therapist_specialization) // Using specialization TextView to show verification status
 
         initViews()
         loadTherapistProfile()
@@ -100,6 +106,25 @@ class TherapistProfileActivity : AppCompatActivity() {
                 therapist = user
                 displayTherapistInfo(user)
                 profileContent.visibility = View.VISIBLE
+
+                // Update verification status
+                if (user.isVerified) {
+                    // Show verification badge and update specialization text to include verification
+                    verificationBadge.visibility = View.VISIBLE
+                    specializationTextView.text = "${user.specialization ?: "General Therapy"} • Verified Professional"
+                    specializationTextView.setTextColor(resources.getColor(R.color.colorSuccess, null))
+
+                    // Log verification status for debugging
+                    android.util.Log.d("TherapistProfile", "Therapist ${user.name} is verified")
+                } else {
+                    // Hide verification badge
+                    verificationBadge.visibility = View.GONE
+                    specializationTextView.text = user.specialization ?: "General Therapy"
+                    specializationTextView.setTextColor(resources.getColor(R.color.colorPrimary, null))
+
+                    // Log verification status for debugging
+                    android.util.Log.d("TherapistProfile", "Therapist ${user.name} is NOT verified")
+                }
             } else {
                 Toast.makeText(this, "Failed to load therapist profile", Toast.LENGTH_SHORT).show()
                 finish()

@@ -5,10 +5,12 @@ data class User(
     val userId: String = "",
     val email: String = "",
     val name: String = "",
-    val userType: String = "", // "patient" or "therapist"
+    val userType: String = "", // "patient", "therapist", or "admin"
     val age: Int? = null, // for patients
     val description: String = "",
-    val specialization: String = "" // for therapists
+    val specialization: String = "", // for therapists
+    val isVerified: Boolean = false, // for therapists verification status
+    val verificationNotes: String = "" // admin notes on verification
 )
 
 // Session booking model
@@ -49,4 +51,15 @@ data class ThreadReply(
     val authorId: String = "",
     val authorName: String = "",
     val timestamp: Long = 0
+)
+
+// Verification request model
+data class VerificationRequest(
+    val requestId: String = "",
+    val therapistId: String = "",
+    val therapistName: String = "",
+    val timestamp: Long = 0,
+    val status: String = "pending", // "pending", "approved", "rejected"
+    val adminNotes: String = "",
+    val credentials: String = "" // therapist's credentials
 )
