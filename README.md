@@ -50,7 +50,7 @@ _“Because sometimes all it takes is one safe conversation.”_
 
 ## 📥 Download APK
 
-🌐 Or browse it on [AppMandi](https://ramoliyayug.github.io/appMandi/Zenity/zenity.html)
+🌐 browse it on [AppMandi](https://ramoliyayug.github.io/appMandi/Zenity/zenity.html)
 
 ---
 
